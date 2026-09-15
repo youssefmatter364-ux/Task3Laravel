@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Order Item Details</title>
@@ -7,48 +6,44 @@
 </head>
 <body>
 
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
-
 <div class="container">
 
-```
-<h1 class="title">Order Item Details</h1>
+    <h1>Order Item Details</h1>
 
-<div class="details">
+    <div class="card">
 
-    <p><strong>ID:</strong> {{ $orderItem->id }}</p>
+        <p>
+            <strong>ID:</strong>
+            {{ $orderItem->id }}
+        </p>
 
-    <p><strong>Order ID:</strong> {{ $orderItem->order_id }}</p>
+        <p>
+            <strong>Order:</strong>
+            {{ $orderItem->order_id }}
+        </p>
 
-    <p><strong>Product ID:</strong> {{ $orderItem->product_id }}</p>
+        <p>
+            <strong>Product:</strong>
+            {{ $orderItem->product->name ?? 'No Product' }}
+        </p>
 
-    <p><strong>Quantity:</strong> {{ $orderItem->quantity }}</p>
+        <p>
+            <strong>Quantity:</strong>
+            {{ $orderItem->quantity }}
+        </p>
 
-    <p><strong>Price:</strong> ${{ $orderItem->price }}</p>
+        <p>
+            <strong>Price:</strong>
+            {{ $orderItem->price }}
+        </p>
 
-    <a class="btn" href="{{ route('order_items.index') }}">
-        Back to Order Items
+    </div>
+
+    <a href="{{ route('order_items.index') }}"
+       class="btn btn-secondary">
+        Back
     </a>
 
-</div>
-```
-
-</div>
-
-<div class="footer">
-    Laravel Store © 2026
 </div>
 
 </body>

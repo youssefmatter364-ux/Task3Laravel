@@ -2,16 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    function user()
+    use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_id'
+    ];
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    function orderItems()
+    public function orderItems()
     {
         return $this->hasMany(Order_Item::class);
     }

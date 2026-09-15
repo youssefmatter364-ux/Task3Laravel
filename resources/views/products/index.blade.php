@@ -1,64 +1,97 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Products</title>
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 </head>
+
 <body>
-
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
 
 <div class="container">
 
-```
-<h1 class="title">Products</h1>
+    <h1>Products</h1>
 
-<div class="cards">
-
-    @foreach($products as $product)
-
-        <div class="card">
-
-            <h3>{{ $product->name }}</h3>
-
-            <p><strong>ID:</strong> {{ $product->id }}</p>
-
-            <p>{{ $product->description }}</p>
-
-            <p><strong>Price:</strong> ${{ $product->price }}</p>
-
-            <p><strong>Quantity:</strong> {{ $product->quantity }}</p>
-
-            <p><strong>Category ID:</strong> {{ $product->category_id }}</p>
-
-            <a class="btn" href="{{ route('products.show', $product->id) }}">
-                Show Details
-            </a>
-
+    @if(session('error'))
+        <div class="error">
+            {{ session('error') }}
         </div>
+    @endif
 
-    @endforeach
+    @if(session('success'))
+        <div class="success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-</div>
-```
+    <a href="{{ route('products.create') }}" class="btn btn-primary">
+        Add Product
+    </a>
 
-</div>
+    <table>
 
-<div class="footer">
-    Laravel Store © 2026
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach($products as $product)
+
+        <tr>
+
+            <td>{{ $product->id }}</td>
+
+            <td>{{ $product->name }}</td>
+
+            <td>{{ $product->description }}</td>
+
+            <td>{{ $product->price }}</td>
+
+            <td>{{ $product->quantity }}</td>
+
+            <td>
+                {{ $product->category->name ?? 'No Category' }}
+            </td>
+
+            <td style="white-space: nowrap;">
+
+                <a href="{{ route('products.show', $product->id) }}"
+                   class="btn btn-primary">
+                    Show
+                </a>
+
+                <a href="{{ route('products.edit', $product->id) }}"
+                   class="btn btn-success">
+                    Edit
+                </a>
+
+                <form action="{{ route('products.delete', $product->id) }}"
+                      method="POST"
+                      style="display:inline; background:none; padding:0; box-shadow:none;">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit"
+                            class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this product?')">
+                        Delete
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        @endforeach
+
+    </table>
+
 </div>
 
 </body>

@@ -1,62 +1,101 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Order Items</title>
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 </head>
+
 <body>
-
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
 
 <div class="container">
 
-```
-<h1 class="title">Order Items</h1>
+    <h1>Order Items</h1>
 
-<div class="cards">
-
-    @foreach($orderItems as $orderItem)
-
-        <div class="card">
-
-            <h3>Order Item #{{ $orderItem->id }}</h3>
-
-            <p><strong>Order ID:</strong> {{ $orderItem->order_id }}</p>
-
-            <p><strong>Product ID:</strong> {{ $orderItem->product_id }}</p>
-
-            <p><strong>Quantity:</strong> {{ $orderItem->quantity }}</p>
-
-            <p><strong>Price:</strong> ${{ $orderItem->price }}</p>
-
-            <a class="btn" href="{{ route('order_items.show', $orderItem->id) }}">
-                Show Details
-            </a>
-
+    @if(session('error'))
+        <div class="error">
+            {{ session('error') }}
         </div>
+    @endif
 
-    @endforeach
+    @if(session('success'))
+        <div class="success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-</div>
-```
+    <a href="{{ route('order_items.create') }}"
+       class="btn btn-primary">
+        Add Order Item
+    </a>
 
-</div>
+    <table>
 
-<div class="footer">
-    Laravel Store © 2026
+        <tr>
+            <th>ID</th>
+            <th>Order</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach($orderItems as $item)
+
+        <tr>
+
+            <td>{{ $item->id }}</td>
+
+            <td>
+                Order #{{ $item->order->id }}
+            </td>
+
+            <td>
+                {{ $item->product->name }}
+            </td>
+
+            <td>
+                {{ $item->quantity }}
+            </td>
+
+            <td>
+                {{ $item->price }}
+            </td>
+
+            <td style="white-space: nowrap;">
+
+                <a href="{{ route('order_items.show', $item->id) }}"
+                   class="btn btn-primary">
+                    Show
+                </a>
+
+                <a href="{{ route('order_items.edit', $item->id) }}"
+                   class="btn btn-success">
+                    Edit
+                </a>
+
+                <form action="{{ route('order_items.delete', $item->id) }}"
+                      method="POST"
+                      style="display:inline; background:none; padding:0; box-shadow:none;">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit"
+                            class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this order item?')">
+                        Delete
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        @endforeach
+
+    </table>
+
 </div>
 
 </body>

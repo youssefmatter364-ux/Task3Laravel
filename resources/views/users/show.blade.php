@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>User Details</title>
@@ -7,44 +6,39 @@
 </head>
 <body>
 
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
-
 <div class="container">
 
-```
-<h1 class="title">User Details</h1>
+    <h1>User Details</h1>
 
-<div class="details">
+    <div class="card">
+        <p><strong>Name:</strong> {{ $user->name }}</p>
+        <p><strong>Email:</strong> {{ $user->email }}</p>
+    </div>
 
-    <p><strong>ID:</strong> {{ $user->id }}</p>
+    <h2>User Orders</h2>
 
-    <p><strong>Name:</strong> {{ $user->name }}</p>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+        </tr>
 
-    <p><strong>Email:</strong> {{ $user->email }}</p>
+        @foreach($user->orders as $order)
+        <tr>
+            <td>{{ $order->id }}</td>
+            <td>{{ $order->created_at }}</td>
+        </tr>
+        @endforeach
 
-    <a class="btn" href="{{ route('users.index') }}">
-        Back to Users
+    </table>
+
+    <br>
+
+    <a href="{{ route('users.index') }}"
+       class="btn btn-secondary">
+        Back
     </a>
 
-</div>
-```
-
-</div>
-
-<div class="footer">
-    Laravel Store © 2026
 </div>
 
 </body>

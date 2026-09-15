@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Category Details</title>
@@ -7,44 +6,93 @@
 </head>
 <body>
 
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
-
 <div class="container">
 
-```
-<h1 class="title">Category Details</h1>
+    <h1>Category Details</h1>
 
-<div class="details">
+    <div class="card">
 
-    <p><strong>ID:</strong> {{ $category->id }}</p>
+        <h2>{{ $category->name }}</h2>
 
-    <p><strong>Name:</strong> {{ $category->name }}</p>
+        <p>{{ $category->description }}</p>
 
-    <p><strong>Description:</strong> {{ $category->description }}</p>
+    </div>
 
-    <a class="btn" href="{{ route('categories.index') }}">
-        Back to Categories
-    </a>
+    <h2>Products</h2>
 
-</div>
-```
+    <table>
 
-</div>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
 
-<div class="footer">
-    Laravel Store © 2026
+        @forelse($category->products as $product)
+
+            <tr>
+                <td>{{ $product->id }}</td>
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->price }}</td>
+                <td>{{ $product->quantity }}</td>
+            </tr>
+
+        @empty
+
+            <tr>
+                <td colspan="4">No products found.</td>
+            </tr>
+
+        @endforelse
+
+    </table>
+
+    <h2>Orders</h2>
+
+    <table>
+
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+
+        @forelse($category->products as $product)
+
+            @foreach($product->orderItems as $item)
+
+                <tr>
+                    <td>{{ $item->order->id }}</td>
+                    <td>{{ $item->order->user->name }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>{{ $item->price }}</td>
+                </tr>
+
+            @endforeach
+
+        @empty
+
+            <tr>
+                <td colspan="5">No orders found.</td>
+            </tr>
+
+        @endforelse
+
+    </table>
+
+    <div class="actions">
+
+        <a href="{{ route('categories.index') }}"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </div>
+
 </div>
 
 </body>

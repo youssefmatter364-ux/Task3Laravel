@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Order Details</title>
@@ -7,44 +6,50 @@
 </head>
 <body>
 
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
-
 <div class="container">
 
-```
-<h1 class="title">Order Details</h1>
+    <h1>Order Details</h1>
 
-<div class="details">
+    <div class="card">
+        <p>
+            <strong>Order ID:</strong>
+            {{ $order->id }}
+        </p>
 
-    <p><strong>ID:</strong> {{ $order->id }}</p>
+        <p>
+            <strong>User:</strong>
+            {{ $order->user->name ?? 'No User' }}
+        </p>
+    </div>
 
-    <p><strong>User ID:</strong> {{ $order->user_id }}</p>
+    <h2>Order Items</h2>
 
-    <p><strong>Created At:</strong> {{ $order->created_at }}</p>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
 
-    <a class="btn" href="{{ route('orders.index') }}">
-        Back to Orders
+        @foreach($order->orderItems as $item)
+        <tr>
+            <td>{{ $item->id }}</td>
+            <td>{{ $item->product->name ?? 'No Product' }}</td>
+            <td>{{ $item->quantity }}</td>
+            <td>{{ $item->price }}</td>
+        </tr>
+        @endforeach
+
+    </table>
+
+    <br>
+
+    <a href="{{ route('orders.index') }}"
+       class="btn btn-secondary">
+        Back
     </a>
 
-</div>
-```
-
-</div>
-
-<div class="footer">
-    Laravel Store © 2026
 </div>
 
 </body>

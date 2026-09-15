@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Categories</title>
@@ -7,52 +6,73 @@
 </head>
 <body>
 
-<div class="navbar">
-    <h2>Laravel Store</h2>
-
-```
-<div>
-    <a href="/categories">Categories</a>
-    <a href="/products">Products</a>
-    <a href="/users">Users</a>
-    <a href="/orders">Orders</a>
-</div>
-```
-
-</div>
-
 <div class="container">
 
-```
-<h1 class="title">Categories</h1>
+    <h1>Categories</h1>
 
-<div class="cards">
-
-    @foreach($categories as $category)
-
-        <div class="card">
-
-            <h3>{{ $category->name }}</h3>
-
-            <p><strong>ID:</strong> {{ $category->id }}</p>
-
-            <p>{{ $category->description }}</p>
-
-            <a class="btn" href="{{ route('categories.show', $category->id) }}">
-                Show Details
-            </a>
-
+    @if(session('error'))
+        <div class="error">
+            {{ session('error') }}
         </div>
+    @endif
 
-    @endforeach
+    @if(session('success'))
+        <div class="success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-</div>
-```
+    <a href="{{ route('categories.create') }}" class="btn btn-primary">
+        Add Category
+    </a>
 
-</div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
 
-<div class="footer">
-    Laravel Store © 2026
+        @foreach($categories as $category)
+            <tr>
+                <td>{{ $category->id }}</td>
+                <td>{{ $category->name }}</td>
+                <td>{{ $category->description }}</td>
+
+                <td>
+
+                    <a href="{{ route('categories.show', $category->id) }}"
+                       class="btn btn-primary">
+                        Show
+                    </a>
+
+                    <a href="{{ route('categories.edit', $category->id) }}"
+                       class="btn btn-success">
+                        Edit
+                    </a>
+
+                    <form action="{{ route('categories.delete', $category->id) }}"
+                          method="POST"
+                          style="display:inline; background:none; padding:0; box-shadow:none;">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="btn btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this category?')">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </td>
+            </tr>
+        @endforeach
+
+    </table>
+
 </div>
 
 </body>
